@@ -1,16 +1,23 @@
 # BE.Auto.Dependency
 
-Usage
+## Overview
 
+The `BE.Auto.Dependency` module simplifies dependency injection in your application by automating the registration of services using the ASP.NET Core Dependency Injection framework.
+
+## Usage
+
+To integrate automatic dependency registration, add the following code in your application startup:
+
+```csharp
 builder.Services.AddAutoDependency();
-
-
+```
+Example Service Implementation
+Consider the implementation of a service, UserAppService, as an example:
+```csharp
 public class UserAppService : IUserAppService
 {
-
     public async Task<bool> UpdateProfilePictureAsync(IFormFile file)
     {
-
         if (file.Length == 0)
             return false;
 
@@ -27,23 +34,35 @@ public class UserAppService : IUserAppService
         return await Task.FromResult("Burak ESER");
     }
 }
+```
+Service Interfaces
+Define service interfaces that extend IApplicationService:
 
-
+```csharp
 public interface IUserAppService : IApplicationService
 {
-
-    public Task<bool> UpdateProfilePictureAsync(IFormFile file);
-
-    public Task<string> GetUserNameAsync();
-
+    Task<bool> UpdateProfilePictureAsync(IFormFile file);
+    Task<string> GetUserNameAsync();
 }
-
 
 public interface IApplicationService : ITransientDependency
 {
-
 }
+```
+Lifetimes and Attributes
+The module supports the following lifetimes:
+
+ITransientDependency
+ISingletonDependency
+IScopedDependency
+Attributes for lifetimes include:
+
+ScopedDependencyAttribute
+SingletonDependencyAttribute
+TransientDependencyAttribute
 
 
-Lifetimes : ITransientDependency,ISingletonDependency,IScopedDependency
-Attiributes : ScopedDependencyAttribute,SingletonDependencyAttribute,TransientDependencyAttribute
+
+
+
+
